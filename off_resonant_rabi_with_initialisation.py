@@ -1,6 +1,18 @@
 import numpy as np
 import pylab as plt
 
+#Initial nitrogen-state Population
+a1 = 1/3.0  #part in the central dip
+a2 = 2/3.0  #part in the two side dips
+
+#initial electron-state population
+eP1 = .78#Part of pupulation initialised in ms0
+eP2 = .22 #Part of pupulation initialised in ms-1
+eP3 = 0 #Part of pupulation initialised in ms+1
+#Check if populations add up to 1
+if eP1+eP2+eP3 !=1:
+    print "caution! sum of populations != 1"
+
 t_list = np.linspace(0.0,300.0,1000) #Time in ns
 
 #Omega_R = 2*np.pi/(2*120.0)
@@ -17,23 +29,36 @@ print 'prefactor = %.2f' %prefactor
 
 
 P0 = 1-Omega_R**2/(Omega_R**2) *np.sin(t_list/2*np.sqrt(Omega_R**2))**2
-P1 = 1-Omega_R**2/(Delta**2 +Omega_R**2) *np.sin(t_list/2*np.sqrt(Delta**2+Omega_R**2))**2
+PD = 1-Omega_R**2/(Delta**2 +Omega_R**2) *np.sin(t_list/2*np.sqrt(Delta**2+Omega_R**2))**2
+
+PT = a1*P0 +a2*PD
 
 #Scenario population inversion
+P_ms0 = eP1*PT+eP2*(1-PT)
+P_msm1 = eP2*PT +eP1*(1-PT)
+P_msp1 = eP3+t_list*0
+Normalised_Osc = P_ms0 +eP2 +eP3
 
-init_F = .78
 
-a1 = init_F/3.0
-a2 = 2*init_F/3.0 #part in the two side dips
-a3 = (1-init_F)/3.0
-a4 = 2*(1-init_F)/3.0
-Sum_osc = ((a1*P0+a2*P1) - (a3*P0+a4*P1) ) +(1-a1-a2+a3+a4)#Division is because of normalisation at 1
+fig, (ax0, ax1)  = plt.subplots(nrows=2)
 
-plt.plot(t_list,Sum_osc)
-plt.xlabel('time ns')
-plt.ylabel('F(|0>)')
-plt.ylim(0,1)
-plt.title(r'Simulated Electron Rabi: $\omega_R$ =%.1f  MHz, $\Delta$ = %.1f MHz, $F_{init}$ = %.2f' %(Omega_prnt, Delta_prnt, init_F))
-plt.grid(True)
+ax0.plot(t_list,P_ms0, label ='ms0')
+ax0.plot(t_list,P_msm1,label='ms-1')
+ax0.plot(t_list,P_msp1,label='ms+1')
+ax0.set_xlabel('time ns')
+ax0.set_ylabel('population in msX state')
+ax0.set_ylim(-.0,1)
+ax0.set_title(r'Simulated Rabi driving $\mathrm{ms}_0 \leftrightarrow \mathrm{ms}_{-1}$ with: $\omega_R$ =%.1f  MHz, $\Delta$ = %.1f MHz' %(Omega_prnt, Delta_prnt))
+ax0.grid(True)
+# handles, labels = ax0.get_legend_handles_labels()
+# print(handles,labels)
+ax0.legend(['ms0','ms-1','ms+1'])
+
+ax1.plot(t_list,Normalised_Osc)
+ax1.set_xlabel('time ns')
+ax1.set_ylabel('normalised population in ms0')
+ax1.set_ylim(0,1)
+ax1.grid(True)
+
 
 plt.show()
