@@ -29,9 +29,6 @@ def Rabi_evolution(transition_driven='msp1'):
 
     Delta = 2*np.pi * 2.16e6*1e-9
 
-    # print Omega_R
-    # print Delta
-
     Omega_prnt = Omega_R/(2*np.pi)*1e3
     Delta_prnt = Delta/(2*np.pi)*1e3
     prefactor = Omega_R**2/(Delta**2 +Omega_R**2)
@@ -52,7 +49,7 @@ def Rabi_evolution(transition_driven='msp1'):
         P_msm1 = eP2+t_list*0
         P_msp1 = eP3*PT +eP1*(1-PT)
 
-    Normalised_Osc = P_ms0 +eP2 +eP3
+    Normalised_Osc = P_ms0 +eP2 +eP3 #Adds initial populations of eP2 and eP3 to signal so that it starts at 1
 
     ###########################
     ##### Importing the data #######
