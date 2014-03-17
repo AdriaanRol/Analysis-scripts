@@ -8,8 +8,8 @@ def Rabi_evolution(transition_driven='msp1'):
     a2 = 2/3.0  #part in the two side dips
 
     #initial guess electron-state population
-    eP1 = .83#Part of pupulation initialised in ms0
-    eP2 = .16 #Part of pupulation initialised in ms-1
+    eP1 = .7#Part of pupulation initialised in ms0
+    eP2 = .25 #Part of pupulation initialised in ms-1
     eP3 = 1-eP1-eP2 #Part of pupulation initialised in ms+1
     print 'C ms0 = %.2f' % eP1
     print 'C ms-1= %.2f' % eP2
@@ -49,7 +49,9 @@ def Rabi_evolution(transition_driven='msp1'):
         P_msm1 = eP2+t_list*0
         P_msp1 = eP3*PT +eP1*(1-PT)
 
-    Normalised_Osc = P_ms0 +eP2 +eP3 #Adds initial populations of eP2 and eP3 to signal so that it starts at 1
+    #Normalised_Osc = P_ms0 +eP2 +eP3 #Adds initial populations of eP2 and eP3 to signal so that it starts at 1
+    Normalised_Osc = P_ms0/eP1
+    #Normalised with factor
 
     ###########################
     ##### Importing the data #######
