@@ -2,7 +2,19 @@ import numpy as np
 import pylab as plt
 import h5py
 
-def Rabi_evolution(transition_driven='msp1'):
+def Rabi_evolution(transition_driven='msm1'):
+    if transition_driven =='msm1':
+        h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/220140313/193451_ElectronRabi_Hans_sil1_Rabi-1/193451_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
+        #h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172721_ElectronRabi_Hans_sil1_Rabi-1/172721_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
+    else:
+        h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140313/193621_ElectronRabi_Hans_sil1_Rabi+1/193621_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
+
+        #h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172801_ElectronRabi_Hans_sil1_Rabi+1/172801_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
+
+    #######################
+    #### Model Parameters  ####
+    #######################
+
     #Initial nitrogen-state Population
     a1 = 1/3.0  #part in the central dip
     a2 = 2/3.0  #part in the two side dips
@@ -70,12 +82,6 @@ def Rabi_evolution(transition_driven='msp1'):
     ###########################
     ##### Importing the data #######
     ###########################
-    if transition_driven =='msm1':
-        h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172721_ElectronRabi_Hans_sil1_Rabi-1/172721_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
-    else:
-        h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172801_ElectronRabi_Hans_sil1_Rabi+1/172801_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
-
-
     f = h5py.File(h5filepath,'r')
     name = f.keys()[0]
     g = f[name]
