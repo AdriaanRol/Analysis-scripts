@@ -7,17 +7,31 @@ def Rabi_evolution(transition_driven='msp1'):
     a1 = 1/3.0  #part in the central dip
     a2 = 2/3.0  #part in the two side dips
 
+
+    A1 = 0.9
+    A2 = .35
+    A3 = 0
+
     #initial guess electron-state population
-    eP1 = .7#Part of pupulation initialised in ms0
-    eP2 = .25 #Part of pupulation initialised in ms-1
+    eP1 =1# 0.892/A1#Part of pupulation initialised in ms0
+    eP2 = (1-eP1)*0.99 #Part of pupulation initialised in ms-1
     eP3 = 1-eP1-eP2 #Part of pupulation initialised in ms+1
+
+
+
     print 'C ms0 = %.2f' % eP1
     print 'C ms-1= %.2f' % eP2
     print 'C ms+1 = %.2f' % eP3
 
+    print 'A1 =%.2f' %A1
+    print 'A2 =%.2f' %A2
+    print 'A3 =%.2f' %A3
+
     #Check if populations add up to 1
     if eP1+eP2+eP3 !=1:
         print "caution! sum of populations != 1"
+    if A1 > 1:
+        print 'caution probability of collecting photon from ms=0 >1'
 
     t_list = np.linspace(0.0,300.0,1000) #Time in ns
 
@@ -49,8 +63,8 @@ def Rabi_evolution(transition_driven='msp1'):
         P_msm1 = eP2+t_list*0
         P_msp1 = eP3*PT +eP1*(1-PT)
 
-    #Normalised_Osc = P_ms0 +eP2 +eP3 #Adds initial populations of eP2 and eP3 to signal so that it starts at 1
-    Normalised_Osc = P_ms0/eP1
+    #Sim_Osc = P_ms0 +eP2 +eP3 #Adds initial populations of eP2 and eP3 to signal so that it starts at 1
+    Sim_Osc = A1*P_ms0+A2*P_msm1+A3*P_msp1
     #Normalised with factor
 
     ###########################
@@ -93,18 +107,16 @@ def Rabi_evolution(transition_driven='msp1'):
 
     ax0.legend(['ms0','ms-1','ms+1'])
 
-    ax1.plot(t_list,Normalised_Osc,label = 'simulated oscillation')
+    ax1.plot(t_list,Sim_Osc,label = 'simulated oscillation')
     ax1.plot(sweep_pts,normalized_RO_data, 'ro',label ='measured data')
-    print sweep_pts
-    print normalized_RO_data
 
     ax1.set_xlabel('time ns')
-    ax1.set_ylabel('normalised population in ms0')
+    ax1.set_ylabel(r'$\geq 1$ photon detected (ms0)')
     ax1.legend(['simulated oscillation','measured data (no RO corr)'])
     ax1.set_ylim(0,1)
     ax1.grid(True)
 
-
+    print normalized_RO_data[0]
 
 Rabi_evolution(transition_driven='msm1')
 Rabi_evolution(transition_driven='msp1')
