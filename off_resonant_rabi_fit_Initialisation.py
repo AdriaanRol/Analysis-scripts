@@ -4,12 +4,16 @@ import h5py
 
 def Rabi_evolution(transition_driven='msm1'):
     if transition_driven =='msm1':
-        h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/220140313/193451_ElectronRabi_Hans_sil1_Rabi-1/193451_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
-        #h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172721_ElectronRabi_Hans_sil1_Rabi-1/172721_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
-    else:
-        h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140313/193621_ElectronRabi_Hans_sil1_Rabi+1/193621_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
+        # h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140313/193451_ElectronRabi_Hans_sil1_Rabi-1/193451_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
 
-        #h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172801_ElectronRabi_Hans_sil1_Rabi+1/172801_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
+        # h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172721_ElectronRabi_Hans_sil1_Rabi-1/172721_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
+        h5filepath = '/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140319/104721_ElectronRabi_Hans_sil1_Rabi-1/104721_ElectronRabi_Hans_sil1_Rabi-1.hdf5'
+    else:
+        # h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140313/193621_ElectronRabi_Hans_sil1_Rabi+1/193621_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
+
+        # h5filepath='/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140312/172801_ElectronRabi_Hans_sil1_Rabi+1/172801_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
+
+        h5filepath = '/Users/Adriaan/Documents/teamdiamond/data_for_analysis/20140319/104750_ElectronRabi_Hans_sil1_Rabi+1/104750_ElectronRabi_Hans_sil1_Rabi+1.hdf5'
 
     #######################
     #### Model Parameters  ####
@@ -21,12 +25,12 @@ def Rabi_evolution(transition_driven='msm1'):
 
 
     A1 = 0.9
-    A2 = .35
-    A3 = 0
+    A2 = 0.65
+    A3 = 0.0
 
     #initial guess electron-state population
-    eP1 =1# 0.892/A1#Part of pupulation initialised in ms0
-    eP2 = (1-eP1)*0.99 #Part of pupulation initialised in ms-1
+    eP1 = 1# 0.892/A1#Part of pupulation initialised in ms0
+    eP2 =(1-eP1)*0.99 #Part of pupulation initialised in ms-1
     eP3 = 1-eP1-eP2 #Part of pupulation initialised in ms+1
 
 
@@ -49,15 +53,16 @@ def Rabi_evolution(transition_driven='msm1'):
 
     #Rabi Frequency dependent on transition being driven
     if transition_driven == 'msm1':
-        Omega_R = 2*np.pi/(110.0)
+        Omega_R = 2*np.pi/(105.0)
     elif transition_driven == 'msp1':
-        Omega_R = 2*np.pi/(2*125.0)
+        Omega_R = 2*np.pi/(2*118.0)
 
     Delta = 2*np.pi * 2.16e6*1e-9
 
     Omega_prnt = Omega_R/(2*np.pi)*1e3
     Delta_prnt = Delta/(2*np.pi)*1e3
     prefactor = Omega_R**2/(Delta**2 +Omega_R**2)
+    print'Omega_R = %.2f' %Omega_prnt
     print 'prefactor = %.2f' %prefactor
 
 
@@ -118,7 +123,7 @@ def Rabi_evolution(transition_driven='msm1'):
 
     ax1.set_xlabel('time ns')
     ax1.set_ylabel(r'$\geq 1$ photon detected (ms0)')
-    ax1.legend(['simulated oscillation','measured data (no RO corr)'])
+    ax1.legend(['simulated oscillation','measured data (no RO corr)'],loc=4)
     ax1.set_ylim(0,1)
     ax1.grid(True)
 
